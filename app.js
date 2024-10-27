@@ -57,6 +57,7 @@ var allTicketsRouter = require('./routes/all-tickets');
 var createTicketRouter = require('./routes/create-ticket');
 var usersRouter = require('./routes/users');
 var loginNeededRouter = require('./routes/login-needed');
+var ticketRouter = require('./routes/ticket');
 
 var app = express();
 app.use(session({
@@ -139,6 +140,7 @@ app.use('/all-tickets', requiresLogin, allTicketsRouter);
 app.use('/create-ticket', createTicketRouter);
 app.use('/users', jwtCheck, usersRouter);
 app.use('/login-needed', loginNeededRouter); //dont check jwt, session....
+app.use('/ticket', ticketRouter); //dont check jwt, session....
 
 
 /*
