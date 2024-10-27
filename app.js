@@ -54,6 +54,7 @@ const jwtCheck = auth({
 
 var indexRouter = require('./routes/index');
 var allTicketsRouter = require('./routes/all-tickets');
+var createTicketRouter = require('./routes/create-ticket');
 var usersRouter = require('./routes/users');
 var loginNeededRouter = require('./routes/login-needed');
 
@@ -134,8 +135,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/all-tickets', jwtCheck, allTicketsRouter);
+app.use('/create-ticket', createTicketRouter);
 app.use('/users', jwtCheck, usersRouter);
 app.use('/login-needed', loginNeededRouter); //dont check jwt, session....
+
 
 /*
  * Login with 'Organizer' (the Resource Server)
