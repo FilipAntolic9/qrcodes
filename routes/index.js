@@ -6,7 +6,7 @@ const db = require('../db');
 /* GET home page. */
 router.get('/', async function (req, res, next) {
   try {
-    const result = await db.query('SELECT * FROM users');
+    const result = await db.query('SELECT * FROM qrcodes');
 
     var ticket_id = "7b73fd67-2597-4b00-b9e9-81f43c00fb8e";
     var qrcodeData = "http://localhost:3000/ticket/" + ticket_id

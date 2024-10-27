@@ -6,7 +6,7 @@ const db = require('../db');
 router.get('/', async function (req, res, next) {
 
   try {
-    const result = await db.query('SELECT * FROM users');
+    const result = await db.query('SELECT * FROM qrcodes');
     res.render('all-tickets', { title: 'Popis izdanih karata', result: result });
     //res.json(result.rows);
   } catch (err) {
