@@ -82,13 +82,14 @@ passport.use(new oauth2.Strategy({
   //AUTH0_CLIENT_SECRET
   //CALLBACK_URL
 
+  // authorizationURL: 'https://' + nconf.get('dev-4lu668zsbke41q0u.us.auth0.com') + '/i/oauth2/authorize',
   authorizationURL: 'https://' + nconf.get('AUTH0_DOMAIN') + '/i/oauth2/authorize',
   tokenURL: 'https://' + nconf.get('AUTH0_DOMAIN') + '/oauth/token',
   clientID: nconf.get('AUTH0_CLIENT_ID'),
   clientSecret: nconf.get('AUTH0_CLIENT_SECRET'),
   callbackURL: nconf.get('CALLBACK_URL'),
   skipUserProfile: false,
-  audience: "http://localhost:3000",
+  audience: "https://qr-codes-mk80.onrender.com",
 }, function (accessToken, refreshToken, profile, done) {
   console.log('-----------------accessToken:', accessToken);
   var payload = jwt.decode(accessToken);
@@ -134,7 +135,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/all-tickets', jwtCheck, allTicketsRouter);
+app.use('/all-tickets', requiresLogin, allTicketsRouter);
 app.use('/create-ticket', createTicketRouter);
 app.use('/users', jwtCheck, usersRouter);
 app.use('/login-needed', loginNeededRouter); //dont check jwt, session....
