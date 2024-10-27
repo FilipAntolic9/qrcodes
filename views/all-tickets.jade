@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= title
+  p Sve izdane karte: #{result.rowCount}
+  ul
+    each row in result.rows
+      li
+        div #{row.id}
+          b  #{row.username}

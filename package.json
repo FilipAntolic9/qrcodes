@@ -1,0 +1,24 @@
+{
+  "name": "qrcodegenerator",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "^4.21.1",
+    "express-oauth2-jwt-bearer": "^1.6.0",
+    "express-session": "^1.18.1",
+    "gulp": "^5.0.0",
+    "http-errors": "~1.6.3",
+    "jade": "^1.9.2",
+    "morgan": "~1.9.1",
+    "nconf": "^0.12.1",
+    "passport": "^0.7.0",
+    "passport-oauth2": "^1.8.0",
+    "pg": "^8.13.1",
+    "qrcode": "^1.5.4"
+  }
+}
