@@ -7,7 +7,7 @@ router.get('/', async function (req, res, next) {
 
     try {
         // const qrCode = req.query.id;
-        const result = await db.query('SELECT * FROM qrcodes');
+        // const result = await db.query('select * from qrcodes where id = '99ac6bb0-9119-44e0-a6ca-f40e9ca6a07e';');
         res.render('all-tickets', { title: 'Popis izdanih karata', result: result });
         //res.json(result.rows);
     } catch (err) {

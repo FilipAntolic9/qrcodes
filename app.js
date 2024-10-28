@@ -84,8 +84,7 @@ passport.use(new oauth2.Strategy({
   //CALLBACK_URL
 
   // authorizationURL: 'https://' + nconf.get('dev-4lu668zsbke41q0u.us.auth0.com') + '/i/oauth2/authorize',
-  // authorizationURL: 'https://' + nconf.get('AUTH0_DOMAIN') + '/i/oauth2/authorize',
-  authorizationURL: 'https://' + nconf.get('AUTH0_DOMAIN') + '/authorize',
+  authorizationURL: 'https://' + nconf.get('AUTH0_DOMAIN') + '/i/oauth2/authorize',
   tokenURL: 'https://' + nconf.get('AUTH0_DOMAIN') + '/oauth/token',
   clientID: nconf.get('AUTH0_CLIENT_ID'),
   clientSecret: nconf.get('AUTH0_CLIENT_SECRET'),
