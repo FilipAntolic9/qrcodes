@@ -105,30 +105,73 @@ passport.deserializeUser(function (user, done) {
 //   });
 // }));
 
+// passport.use(new oauth2.Strategy({
+//   authorizationURL: `https://${nconf.get('AUTH0_DOMAIN')}/authorize`,
+//   tokenURL: `https://${nconf.get('AUTH0_DOMAIN')}/oauth/token`,
+//   clientID: nconf.get('AUTH0_CLIENT_ID'),
+//   clientSecret: nconf.get('AUTH0_CLIENT_SECRET'),
+//   callbackURL: nconf.get('CALLBACK_URL'),
+//   audience: "https://my-app80.onrender.com"
+// }, (accessToken, refreshToken, profile, done) => {
+//   // Log accessToken details for debugging
+//   console.log('Received accessToken:', accessToken);
+
+//   try {
+//     // Decode accessToken for logging purposes
+//     const payload = jwt.decode(accessToken);
+//     if (payload) {
+//       console.log('Decoded JWT payload:', payload);
+//     } else {
+//       console.error('Failed to decode JWT payload');
+//     }
+
+//     done(null, { id: payload.sub, access_token: accessToken });
+//   } catch (err) {
+//     console.error('Error decoding access token:', err);
+//     done(err);
+//   }
+// }));
+
 passport.use(new oauth2.Strategy({
-  authorizationURL: `https://${nconf.get('AUTH0_DOMAIN')}/authorize`,
-  tokenURL: `https://${nconf.get('AUTH0_DOMAIN')}/oauth/token`,
+  authorizationURL: 'https://' + nconf.get('AUTH0_DOMAIN') + '/i/oauth2/authorize',
+  tokenURL: 'https://' + nconf.get('AUTH0_DOMAIN') + '/oauth/token',
   clientID: nconf.get('AUTH0_CLIENT_ID'),
   clientSecret: nconf.get('AUTH0_CLIENT_SECRET'),
   callbackURL: nconf.get('CALLBACK_URL'),
-  audience: "https://my-app80.onrender.com"
-}, (accessToken, refreshToken, profile, done) => {
-  // Log accessToken details for debugging
+  audience: "https://my-app80.onrender.com",
+}, async function (accessToken, refreshToken, profile, done) {
   console.log('Received accessToken:', accessToken);
 
   try {
-    // Decode accessToken for logging purposes
-    const payload = jwt.decode(accessToken);
-    if (payload) {
-      console.log('Decoded JWT payload:', payload);
-    } else {
-      console.error('Failed to decode JWT payload');
+    // Decode without verification for debugging (do not use this in production)
+    const payload = jwt.decode(accessToken, { complete: true });
+
+    if (!payload || !payload.payload) {
+      console.error('JWT payload is empty or invalid.');
+      return done(new Error('Invalid token payload'), null);
     }
 
-    done(null, { id: payload.sub, access_token: accessToken });
-  } catch (err) {
-    console.error('Error decoding access token:', err);
-    done(err);
+    console.log('Decoded JWT Payload:', payload.payload);
+
+    // Log the claims for debugging purposes
+    console.log('Token Claims:', JSON.stringify(payload.payload, null, 2));
+
+    if (!payload.payload.sub) {
+      console.error("Missing 'sub' in token payload. Possible misconfiguration in Auth0.");
+      return done(new Error("Token payload missing 'sub' claim"), null);
+    }
+
+    logger.info('Token received for user:', payload.payload.sub);
+
+    // Return the user object with the 'sub' as id and access token
+    done(null, {
+      id: payload.payload.sub,
+      access_token: accessToken
+    });
+
+  } catch (error) {
+    console.error('Error decoding access token:', error);
+    done(error, null);
   }
 }));
 
