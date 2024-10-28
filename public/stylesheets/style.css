@@ -1,8 +1,73 @@
-body {
+/* body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+} */
+
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #f4f4f4;
+  /* Light gray background for contrast */
+  color: #333;
+  /* Dark text for better readability */
+  line-height: 1.6;
+  /* Increased line height for better spacing */
+}
+
+h1 {
+  color: #2c3e50;
+  /* Darker shade for headers */
+  margin-bottom: 20px;
+  /* Space below headers */
+}
+
+a {
+  color: #00B7FF;
+  /* Original link color */
+  text-decoration: none;
+  /* Remove underline from links */
+}
+
+a:hover {
+  text-decoration: underline;
+  /* Underline links on hover */
+}
+
+.container {
+  max-width: 800px;
+  /* Centering content */
+  margin: auto;
+  /* Center the container */
+  background: white;
+  /* White background for content */
+  padding: 20px;
+  /* Padding around content */
+  border-radius: 8px;
+  /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  /* Soft shadow */
+}
+
+button {
+  background-color: #00B7FF;
+  /* Button color */
+  color: white;
+  /* White text on button */
+  border: none;
+  /* No border */
+  padding: 10px 15px;
+  /* Padding inside the button */
+  border-radius: 5px;
+  /* Rounded corners */
+  cursor: pointer;
+  /* Pointer on hover */
+}
+
+button:hover {
+  background-color: #0094C7;
+  /* Darker button color on hover */
 }

@@ -1,5 +1,13 @@
+//- extends layout
+
+//- block content
+//-   h1= title
+//-   a(href="/auth/organizer") Prijava
+
 extends layout
 
 block content
   h1= title
-  a(href="/auth/organizer") Prijava
+  p Trenutno niste prijavljeni. Molimo prijavite se kako biste mogli nastaviti.
+  a(href="/auth/organizer")
+    button Prijava
