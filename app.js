@@ -90,7 +90,7 @@ passport.use(new oauth2.Strategy({
   clientSecret: nconf.get('AUTH0_CLIENT_SECRET'),
   callbackURL: nconf.get('CALLBACK_URL'),
   skipUserProfile: false,
-  // audience: "https://qr-codes-mk80.onrender.com",
+  audience: "https://qr-codes-mk80.onrender.com",
 }, function (accessToken, refreshToken, profile, done) {
   console.log('-----------------accessToken:', accessToken);
   var payload = jwt.decode(accessToken);
