@@ -4,7 +4,7 @@ var router = express.Router();
 
 /* GET login needed page. */
 router.get('/', async function (req, res, next) {
-    res.render('login-needed', { title: 'Niste prijavljeni' });
+    res.render('login-needed', { title: 'Potrebna prijava' });
 });
 
 module.exports = router;

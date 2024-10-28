@@ -74,7 +74,7 @@ router.post('/', async function (req, res, next) {
         const result = await db.query("INSERT INTO qrcodes (vatin, firstname, lastname) VALUES ($1, $2, $3) RETURNING id;", [vatin, firstname, lastname]);
         const ticketId = result.rows[0].id;
 
-        var qrcodeData = "https://qr-codes-mk80.onrender.com/ticket/" + ticketId;
+        var qrcodeData = "https://qr-codes-mk80.onrender.com/ticket-details/" + ticketId;
         const qrcode = await QRCode.toDataURL(qrcodeData);
         const responseData = {
             qrCode: qrcode
