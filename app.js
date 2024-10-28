@@ -34,7 +34,7 @@ const { auth } = require('express-oauth2-jwt-bearer');
 var passport = require('passport');
 var oauth2 = require('passport-oauth2');
 
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 
 
 var nconf = require('nconf');
