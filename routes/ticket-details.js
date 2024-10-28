@@ -8,6 +8,7 @@ function formatDate(dateString) {
     return new Date(dateString).toLocaleDateString('hr-HR', options).replace(',', '');
 }
 
+// Error handling function
 function showErrorPage(res, message, status, errorStack = '') {
     res.status(status).render('error', {
         title: 'Error',
@@ -17,7 +18,6 @@ function showErrorPage(res, message, status, errorStack = '') {
     });
 }
 
-
 router.get('/:ticketId', async function (req, res, next) {
     const ticketId = req.params.ticketId;
 
@@ -25,7 +25,7 @@ router.get('/:ticketId', async function (req, res, next) {
         const result = await db.query("SELECT * FROM qrcodes WHERE id = $1;", [ticketId]);
 
         if (result.rows.length === 0) {
-            return showErrorPage(res, "Ulaznica nije pronađena.", 404, "");
+            return showErrorPage(res, "Ulaznica nije pronađena.", 404);
         }
 
         const ticket = result.rows[0];
@@ -39,10 +39,9 @@ router.get('/:ticketId', async function (req, res, next) {
         });
 
     } catch (err) {
-        // console.error(err);
-        // res.status(500).send('Stranica je trenutno nedostupna.');
         console.error(err);
-        showErrorPage(res, 'Stranica je trenutno nedostupna.', 500, err.stack);
+        const errorStack = err.stack ? err.stack : 'Nema dodatnih informacija o pogrešci.';
+        showErrorPage(res, 'Stranica je trenutno nedostupna.', 500, errorStack);
     }
 });
 
