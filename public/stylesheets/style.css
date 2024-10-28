@@ -1,15 +1,7 @@
-/* body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
-} */
-
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+  /* Increased text size from 14px to 16px */
   background-color: #f4f4f4;
   /* Light gray background for contrast */
   color: #333;
@@ -23,6 +15,24 @@ h1 {
   /* Darker shade for headers */
   margin-bottom: 20px;
   /* Space below headers */
+  font-size: 24px;
+  /* Ensure header is larger */
+}
+
+h2 {
+  color: #2c3e50;
+  /* Color for subheadings */
+  margin-bottom: 15px;
+  /* Space below subheadings */
+  font-size: 20px;
+  /* Size for subheadings */
+}
+
+p {
+  margin: 10px 0;
+  /* Add space above and below paragraphs */
+  font-size: 16px;
+  /* Ensure paragraph text is clearly readable */
 }
 
 a {
@@ -65,6 +75,8 @@ button {
   /* Rounded corners */
   cursor: pointer;
   /* Pointer on hover */
+  font-size: 16px;
+  /* Button text size */
 }
 
 button:hover {

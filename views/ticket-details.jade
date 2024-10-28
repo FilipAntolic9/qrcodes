@@ -1,9 +1,7 @@
-doctype html
-html
-  head
-    title Podatci o ulaznici
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
+extends layout
+
+block content
+  .container
     if userName
       p Prijavljeni korisnik: #{userName}
     else
@@ -18,4 +16,5 @@ html
     else
       p Nema podataka o ulaznici.
     
-    a(href='/') Natrag na početnu stranicu
+    a(href='/') 
+      button Natrag na početnu stranicu
