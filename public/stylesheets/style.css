@@ -79,16 +79,12 @@ button {
   font-size: 16px;
   /* Button text size */
   margin-top: 10px;
-  /* Add space above buttons */
+  /* Space above buttons */
+  margin-right: 10px;
+  /* Space to the right of the button */
 }
 
 button:hover {
   background-color: #0094C7;
   /* Darker button color on hover */
-}
-
-/* Additional style to ensure button separation */
-button+button {
-  margin-left: 10px;
-  /* Space between buttons */
 }
