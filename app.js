@@ -46,7 +46,7 @@ nconf.env()
 
 //oauth - https://manage.auth0.com/ - kreiran Applications / API (M2M)
 const jwtCheck = auth({
-  // audience: 'https://qr-codes-mk80.onrender.com',
+  audience: 'https://qr-codes-mk80.onrender.com',
   issuerBaseURL: 'https://dev-4lu668zsbke41q0u.us.auth0.com/',  //BASIC/ DOMAIN
   tokenSigningAlg: 'RS256'
 });
