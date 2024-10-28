@@ -34,6 +34,8 @@ const { auth } = require('express-oauth2-jwt-bearer');
 var passport = require('passport');
 var oauth2 = require('passport-oauth2');
 
+const jwt = require('jsonwebtoken'); //
+
 
 var nconf = require('nconf');
 nconf.env()
@@ -77,30 +79,57 @@ passport.deserializeUser(function (user, done) {
   console.log('deserialize user');
   done(null, user);
 });
-passport.use(new oauth2.Strategy({
-  //AUTH0_DOMAIN dev-g3eljifs.eu.auth0.com
-  //AUTH0_CLIENT_ID
-  //AUTH0_CLIENT_SECRET
-  //CALLBACK_URL
+// passport.use(new oauth2.Strategy({
+//   //AUTH0_DOMAIN dev-g3eljifs.eu.auth0.com
+//   //AUTH0_CLIENT_ID
+//   //AUTH0_CLIENT_SECRET
+//   //CALLBACK_URL
 
-  // authorizationURL: 'https://' + nconf.get('dev-4lu668zsbke41q0u.us.auth0.com') + '/i/oauth2/authorize',
-  authorizationURL: 'https://' + nconf.get('AUTH0_DOMAIN') + '/i/oauth2/authorize',
-  tokenURL: 'https://' + nconf.get('AUTH0_DOMAIN') + '/oauth/token',
+//   // authorizationURL: 'https://' + nconf.get('dev-4lu668zsbke41q0u.us.auth0.com') + '/i/oauth2/authorize',
+//   authorizationURL: 'https://' + nconf.get('AUTH0_DOMAIN') + '/i/oauth2/authorize',
+//   tokenURL: 'https://' + nconf.get('AUTH0_DOMAIN') + '/oauth/token',
+//   clientID: nconf.get('AUTH0_CLIENT_ID'),
+//   clientSecret: nconf.get('AUTH0_CLIENT_SECRET'),
+//   callbackURL: nconf.get('CALLBACK_URL'),
+//   skipUserProfile: false,
+//   audience: "https://qr-codes-mk80.onrender.com",
+// }, function (accessToken, refreshToken, profile, done) {
+//   console.log('-----------------accessToken:', accessToken);
+//   var payload = jwt.decode(accessToken);
+//   console.log('-----------------accessToken PARSED');
+//   logger.info('Token received for:', payload.sub);
+
+//   done(null, {
+//     id: payload.sub,
+//     access_token: accessToken
+//   });
+// }));
+
+passport.use(new oauth2.Strategy({
+  authorizationURL: `https://${nconf.get('AUTH0_DOMAIN')}/authorize`,
+  tokenURL: `https://${nconf.get('AUTH0_DOMAIN')}/oauth/token`,
   clientID: nconf.get('AUTH0_CLIENT_ID'),
   clientSecret: nconf.get('AUTH0_CLIENT_SECRET'),
   callbackURL: nconf.get('CALLBACK_URL'),
-  skipUserProfile: false,
-  audience: "https://qr-codes-mk80.onrender.com",
-}, function (accessToken, refreshToken, profile, done) {
-  console.log('-----------------accessToken:', accessToken);
-  var payload = jwt.decode(accessToken);
-  console.log('-----------------accessToken PARSED');
-  logger.info('Token received for:', payload.sub);
+  audience: "https://my-app80.onrender.com"
+}, (accessToken, refreshToken, profile, done) => {
+  // Log accessToken details for debugging
+  console.log('Received accessToken:', accessToken);
 
-  done(null, {
-    id: payload.sub,
-    access_token: accessToken
-  });
+  try {
+    // Decode accessToken for logging purposes
+    const payload = jwt.decode(accessToken);
+    if (payload) {
+      console.log('Decoded JWT payload:', payload);
+    } else {
+      console.error('Failed to decode JWT payload');
+    }
+
+    done(null, { id: payload.sub, access_token: accessToken });
+  } catch (err) {
+    console.error('Error decoding access token:', err);
+    done(err);
+  }
 }));
 
 /*
@@ -113,9 +142,18 @@ app.use(passport.session());
  * Middleware to require authentication.
 example : app.get('/account', requiresLogin, function(req, res, next) {
  */
-var requiresLogin = function (req, res, next) {
-  console.log(req.user);
+// var requiresLogin = function (req, res, next) {
+//   console.log(req.user);
+//   if (!req.isAuthenticated()) {
+//     return res.redirect('/login-needed');
+//   }
+//   next();
+// };
+
+var requiresLogin = (req, res, next) => {
+  console.log('User data in session:', req.user);
   if (!req.isAuthenticated()) {
+    console.log('User is not authenticated. Redirecting to login.');
     return res.redirect('/login-needed');
   }
   next();
@@ -152,12 +190,20 @@ app.get('/auth/organizer',
 /*
  * Handle callback from the Authorization Server.
  */
+// app.get('/auth/organizer/callback',
+//   passport.authenticate('oauth2', { failureRedirect: '/' }),
+//   function (req, res) {
+//     logger.debug('Login:', req.user.access_token);
+//     res.redirect('/account');
+//   });
+
 app.get('/auth/organizer/callback',
   passport.authenticate('oauth2', { failureRedirect: '/' }),
   function (req, res) {
-    logger.debug('Login:', req.user.access_token);
-    res.redirect('/account');
-  });
+    console.log('User logged in with access token:', req.user.access_token);
+    res.redirect('/all-tickets');
+  }
+);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
