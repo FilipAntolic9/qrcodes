@@ -34,6 +34,8 @@ const { auth } = require('express-oauth2-jwt-bearer');
 var passport = require('passport');
 var oauth2 = require('passport-oauth2');
 
+const jwt = require('jsonwebtoken');
+
 
 var nconf = require('nconf');
 nconf.env()
@@ -92,15 +94,32 @@ passport.use(new oauth2.Strategy({
   skipUserProfile: false,
   audience: "https://qr-codes-mk80.onrender.com",
 }, function (accessToken, refreshToken, profile, done) {
-  console.log('-----------------accessToken:', accessToken);
-  var payload = jwt.decode(accessToken);
-  console.log('-----------------accessToken PARSED');
-  logger.info('Token received for:', payload.sub);
+  // console.log('-----------------accessToken:', accessToken);
+  // var payload = jwt.decode(accessToken);
+  // console.log('-----------------accessToken PARSED');
+  // logger.info('Token received for:', payload.sub);
 
-  done(null, {
-    id: payload.sub,
-    access_token: accessToken
-  });
+  // done(null, {
+  //   id: payload.sub,
+  //   access_token: accessToken
+  // });
+
+  try {
+    const payload = jwt.decode(accessToken, { complete: true });
+    if (!payload) {
+      return done(new Error("Failed to decode JWT payload"));
+    }
+
+    console.log('Decoded JWT payload:', payload.payload); // Ensure payload is correctly logged
+    done(null, {
+      id: payload.payload.sub,
+      access_token: accessToken,
+      payload: payload.payload // Pass decoded payload for session reference
+    });
+  } catch (error) {
+    console.error("Error decoding JWT:", error);
+    done(error);
+  }
 }));
 
 /*
@@ -136,7 +155,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/all-tickets', requiresLogin, allTicketsRouter);
+app.use('/all-tickets', jwtCheck, requiresLogin, allTicketsRouter);
 app.use('/create-ticket', createTicketRouter);
 app.use('/users', jwtCheck, usersRouter);
 app.use('/login-needed', loginNeededRouter); //dont check jwt, session....
