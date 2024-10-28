@@ -8,7 +8,6 @@ function formatDate(dateString) {
     return new Date(dateString).toLocaleDateString('hr-HR', options).replace(',', '');
 }
 
-// Error handling function
 function showErrorPage(res, message, status, errorStack = '') {
     res.status(status).render('error', {
         title: 'Error',
