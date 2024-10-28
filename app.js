@@ -57,7 +57,7 @@ var allTicketsRouter = require('./routes/all-tickets');
 var createTicketRouter = require('./routes/create-ticket');
 var usersRouter = require('./routes/users');
 var loginNeededRouter = require('./routes/login-needed');
-var ticketRouter = require('./routes/ticket');
+var ticketRouter = require('./routes/ticket-details');
 
 var app = express();
 app.use(session({

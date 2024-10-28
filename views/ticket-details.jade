@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title Podatci o ulaznici
+    //- link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    h1 Podatci o ulaznici
+    if userName
+      p Prijavljeni korisnik: #{userName}
+    else
+      p Trenutno niste prijavljeni.
+      
+    if ticket
+      h2 Podatci o ulaznici
+      p OIB: #{ticket.vatin}
+      p Ime: #{ticket.firstname}
+      p Prezime: #{ticket.lastname}
+      p Vrijeme izrade: #{new Date(ticket.datecreated).toLocaleString()}
+    else
+      p Nema podataka o ulaznici.
+    
+    a(href='/') Natrag

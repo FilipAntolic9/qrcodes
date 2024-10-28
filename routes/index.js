@@ -16,7 +16,7 @@ router.get('/', async function (req, res, next) {
     //res.json(result.rows);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Privremeno nedostupno');
+    res.status(500).send('Stranica je trenutno nedostupna.');
   }
 
 });

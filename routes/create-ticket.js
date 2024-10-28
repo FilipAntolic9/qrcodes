@@ -83,7 +83,7 @@ router.post('/', async function (req, res, next) {
 
     } catch (err) {
         console.error(err);
-        res.status(500).send('Web stranica je trenutno nedostupna.');
+        res.status(500).send('Stranica je trenutno nedostupna.');
     }
 });
 
