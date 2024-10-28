@@ -46,7 +46,7 @@ nconf.env()
 
 //oauth - https://manage.auth0.com/ - kreiran Applications / API (M2M)
 const jwtCheck = auth({
-  audience: 'https://qr-codes-mk80.onrender.com',
+  // audience: 'https://qr-codes-mk80.onrender.com',
   issuerBaseURL: 'https://dev-4lu668zsbke41q0u.us.auth0.com/',  //BASIC/ DOMAIN
   tokenSigningAlg: 'RS256'
 });
@@ -90,7 +90,7 @@ passport.use(new oauth2.Strategy({
   clientSecret: nconf.get('AUTH0_CLIENT_SECRET'),
   callbackURL: nconf.get('CALLBACK_URL'),
   skipUserProfile: false,
-  audience: "https://qr-codes-mk80.onrender.com",
+  // audience: "https://qr-codes-mk80.onrender.com",
 }, function (accessToken, refreshToken, profile, done) {
   console.log('-----------------accessToken:', accessToken);
   var payload = jwt.decode(accessToken);
