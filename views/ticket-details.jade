@@ -14,8 +14,8 @@ html
       p OIB: #{ticket.vatin}
       p Ime: #{ticket.firstname}
       p Prezime: #{ticket.lastname}
-      p Vrijeme izrade: #{new Date(ticket.datecreated).toLocaleString()}
+      p Vrijeme izrade: #{formattedDate}
     else
       p Nema podataka o ulaznici.
     
-    a(href='/') Natrag
+    a(href='/') Natrag na početnu stranicu
